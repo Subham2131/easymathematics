@@ -1,0 +1,201 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.calculator {
+    background-color: #0e0d0d;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+}
+
+#display {
+    width: 90%;
+    height: 50px;
+    margin-bottom: 20px;
+    border: 2px solid #050505;
+    border-radius: 5px;
+    text-align: right;
+    font-size: 1.5rem;
+    padding: 10px;
+    background-color: #010101;
+    color: #fffcfc;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+button {
+    height: 50px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(1);
+    background-color: #004494;
+}
+
+button:nth-child(4n) {
+    background-color: #ff5722;
+}
+
+button:nth-child(4n):hover {
+    background-color: #e64a19;
+}
+
+button:nth-child(4n):active {
+    background-color: #d84315;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
+  }
+
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .square {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(45deg, #ff6b6b, #ffe66d, #4ecdc4, #1a535c);
+    background-size: 400% 400%;
+    animation: squareGradient 5s linear infinite;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  @keyframes squareGradient {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+  }
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    animation: gradientBackground 10s ease infinite;
+}
+
+@keyframes gradientBackground {
+    0% {
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    }
+    50% {
+        background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+    }
+    100% {
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    }
+}
+
+.calculator {
+    background: linear-gradient(135deg, #020202, #0b0a0a);
+    border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(13, 13, 13, 0.1);
+    padding: 20px;
+    width: 300px;
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#display {
+    width: 90%;
+    height: 50px;
+    margin-bottom: 20px;
+    border: 2px solid #0a0909;
+    border-radius: 5px;
+    text-align: right;
+    font-size: 1.5rem;
+    padding: 10px;
+    background-color: #faf6f6;
+    color: #060606;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+button {
+    height: 50px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: rgb(247, 244, 244);
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #0056b3, #003f8a);
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+    transform: scale(1);
+    background: linear-gradient(135deg, #004494, #002c6e);
+}
+
+button:nth-child(4n) {
+    background: linear-gradient(135deg, #ff5722, #e64a19);
+}
+
+button:nth-child(4n):hover {
+    background: linear-gradient(135deg, #e64a19, #d84315);
+}
+
+button:nth-child(4n):active {
+    background: linear-gradient(135deg, #d84315, #bf360c);
+}
+
