@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Match Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f7f7f7;
+    }
+    .game-container {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      grid-template-rows: repeat(4, 100px);
+      gap: 10px;
+      justify-items: center;
+    }
+    .card {
+      width: 100px;
+      height: 100px;
+      background-color: #fff;
+      border: 2px solid #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .card.flipped {
+      background-color: #f0f0f0;
+    }
+    .card.matched {
+      background-color: #c1e1c1;
+      pointer-events: none;
+    }
+    .card:hover {
+      transform: scale(1.1);
+    }
+    #message {
+      margin-top: 20px;
+      font-size: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="game-container" id="game-board"></div>
+  <div id="message"></div>
+
+  <script>
+    const gameBoard = document.getElementById("game-board");
+    const message = document.getElementById("message");
+
+    // Card symbols
+    const symbols = ["🍎", "🍌", "🍇", "🍍", "🍉", "🍊", "🍓", "🍒"];
+    let cardDeck = [...symbols, ...symbols];  // Duplicate symbols to create pairs
+
+    // Shuffle the deck
+    function shuffleDeck(deck) {
+      return deck.sort(() => Math.random() - 0.5);
+    }
+
+    // Create game board
+    function createBoard() {
+      cardDeck = shuffleDeck(cardDeck);
+      for (let i = 0; i < cardDeck.length; i++) {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.dataset.symbol = cardDeck[i];
+        card.dataset.index = i;
+        card.addEventListener("click", flipCard);
+        gameBoard.appendChild(card);
+      }
+    }
+
+    let flippedCards = [];
+    let matchedCards = 0;
+
+    // Flip the card when clicked
+    function flipCard(event) {
+      const clickedCard = event.target;
+
+      // If the card is already flipped or matched, do nothing
+      if (clickedCard.classList.contains("flipped") || clickedCard.classList.contains("matched")) {
+        return;
+      }
+
+      // Show the symbol on the card
+      clickedCard.textContent = clickedCard.dataset.symbol;
+      clickedCard.classList.add("flipped");
+
+      // Add flipped card to the array
+      flippedCards.push(clickedCard);
+
+      // If two cards are flipped, check for a match
+      if (flippedCards.length === 2) {
+        checkForMatch();
+      }
+    }
+
+    // Check if the two flipped cards match
+    function checkForMatch() {
+      const [card1, card2] = flippedCards;
+
+      if (card1.dataset.symbol === card2.dataset.symbol) {
+        // If matched, mark the cards as matched
+        card1.classList.add("matched");
+        card2.classList.add("matched");
+        matchedCards++;
+
+        if (matchedCards === symbols.length) {
+          setTimeout(() => {
+            message.textContent = "You win! All pairs matched!";
+          }, 500);
+        }
+      } else {
+        // If not matched, flip them back after a delay
+        setTimeout(() => {
+          card1.classList.remove("flipped");
+          card2.classList.remove("flipped");
+          card1.textContent = "";
+          card2.textContent = "";
+        }, 1000);
+      }
+
+      // Reset flipped cards array
+      flippedCards = [];
+    }
+
+    // Initialize the game
+    createBoard();
+  </script>
+  
+</body>
+</html>

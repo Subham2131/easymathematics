@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catch the Falling Object</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .game-container {
+      position: relative;
+      width: 600px;
+      height: 400px;
+      background-color: #87CEEB;
+      border: 2px solid #000;
+      overflow: hidden;
+    }
+
+    .player {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      width: 50px;
+      height: 50px;
+      background-color: #ff6347;
+      border-radius: 5px;
+      transform: translateX(-50%);
+    }
+
+    .falling-object {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-color: #32cd32;
+      border-radius: 50%;
+    }
+
+    #score {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 24px;
+      color: #fff;
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="game-container" id="game-container">
+    <div class="player" id="player"></div>
+    <div id="score">Score: 0</div>
+  </div>
+
+  <script>
+    // Game variables
+    const gameContainer = document.getElementById('game-container');
+    const player = document.getElementById('player');
+    const scoreElement = document.getElementById('score');
+
+    let score = 0;
+    let gameOver = false;
+    let playerSpeed = 20;
+    let fallingObjectSpeed = 2;
+
+    // Player movement (left and right)
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft' && player.offsetLeft > 0) {
+        player.style.left = `${player.offsetLeft - playerSpeed}px`;
+      } else if (event.key === 'ArrowRight' && player.offsetLeft < gameContainer.offsetWidth - player.offsetWidth) {
+        player.style.left = `${player.offsetLeft + playerSpeed}px`;
+      }
+    });
+
+    // Create a falling object
+    function createFallingObject() {
+      const fallingObject = document.createElement('div');
+      fallingObject.classList.add('falling-object');
+      fallingObject.style.left = `${Math.random() * (gameContainer.offsetWidth - 30)}px`;
+      gameContainer.appendChild(fallingObject);
+
+      // Move the falling object
+      let fallingObjectPosition = 0;
+
+      function moveFallingObject() {
+        if (gameOver) return;
+
+        fallingObjectPosition += fallingObjectSpeed;
+        fallingObject.style.top = `${fallingObjectPosition}px`;
+
+        // Check if the object hits the player
+        if (
+          fallingObjectPosition + fallingObject.offsetHeight >= player.offsetTop &&
+          fallingObjectPosition + fallingObject.offsetHeight <= player.offsetTop + player.offsetHeight &&
+          fallingObject.offsetLeft + fallingObject.offsetWidth >= player.offsetLeft &&
+          fallingObject.offsetLeft <= player.offsetLeft + player.offsetWidth
+        ) {
+          score++;
+          scoreElement.textContent = `Score: ${score}`;
+          gameContainer.removeChild(fallingObject);
+        }
+
+        // Check if the object falls out of the game area
+        if (fallingObjectPosition >= gameContainer.offsetHeight) {
+          gameContainer.removeChild(fallingObject);
+        } else {
+          requestAnimationFrame(moveFallingObject);
+        }
+      }
+
+      moveFallingObject();
+    }
+
+    // Spawn falling objects every 1 second
+    function startGame() {
+      setInterval(() => {
+        if (!gameOver) {
+          createFallingObject();
+        }
+      }, 1000);
+    }
+
+    // Start the game when the page loads
+    startGame();
+
+    // End the game (if you want to implement an end condition, like a timer or a number of missed objects)
+    // Uncomment this to make the game stop after 30 seconds.
+    // setTimeout(() => {
+    //   gameOver = true;
+    //   alert(`Game Over! Your final score is ${score}`);
+    // }, 30000);
+
+  </script>
+
+</body>
+</html>

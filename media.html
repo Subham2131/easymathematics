@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>media section</title>
+  <style>
+ body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc;
+  }
+  
+  .about-section {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .about-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .about-text {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .about-text h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    animation: slideInFromLeft 1.5s ease-out;
+  }
+  
+  .about-text p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+    animation: fadeIn 2s ease-in;
+  }
+  
+  .about-btn {
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 1rem;
+    color: #4CAF50;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .about-btn:hover {
+    transform: scale(1.1);
+    background-color: #f4f7fc;
+  }
+  
+  .about-image {
+    flex: 1;
+    min-width: 300px;
+    animation: slideInFromRight 1.5s ease-out;
+  }
+  
+  .about-image img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  </style>
+  
+</body>
+</html>
+<div class="about-section">
+    <div class="about-content">
+        <!-- Text Content -->
+        <div class="about-text">
+            <h1>Easy mathematics</h1>
+            <p>  Easy Mathematics, a platform designed to make learning math simple, engaging, and accessible for everyone.
+                Mathematics often feels like a daunting subject for many. We've all heard people say, "I'm just not good at math," or "Math is too hard for me." At Easy Mathematics, our mission is to change that narrative.
+            </p>
+            <button class="about-btn">Learn More</button>
+        </div>
+        <!-- Video Content -->
+        <div class="about-video">
+            <video controls width="100%" height="auto">
+                <source src="invideo-ai-480 Transforming Math Fear into Fun with Eas 2025-01-06 (1).mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+</div>    
+

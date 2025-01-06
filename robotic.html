@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Procedural Animation - Robot Moving</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #3a6aec;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="glCanvas"></canvas>
+
+  <script>
+    // Setup canvas and context
+    const canvas = document.getElementById('glCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Set the canvas size to fill the screen
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Robot's properties
+    let robotX = canvas.width / 2;
+    const robotY = canvas.height / 2;
+    const robotWidth = 50;
+    const robotHeight = 50;
+    const robotSpeed = 3; // Speed of the robot's movement
+    let direction = 1; // 1 for moving right, -1 for moving left
+
+    // Function to draw the robot
+    function drawRobot(x, y) {
+      ctx.fillStyle = '#FF6347'; // Robot's body color (tomato red)
+      
+      // Draw robot body
+      ctx.fillRect(x, y, robotWidth, robotHeight);
+      
+      // Draw robot head
+      ctx.fillStyle = '#8B4513'; // Head color (brown)
+      ctx.fillRect(x + 10, y - 20, 30, 20);
+      
+      // Draw eyes
+      ctx.fillStyle = '#FFFFFF'; // Eyes color (white)
+      ctx.beginPath();
+      ctx.arc(x + 15, y - 10, 5, 0, Math.PI * 2); // Left eye
+      ctx.arc(x + 35, y - 10, 5, 0, Math.PI * 2); // Right eye
+      ctx.fill();
+      
+      // Draw antenna
+      ctx.strokeStyle = '#8B4513'; // Antenna color (brown)
+      ctx.beginPath();
+      ctx.moveTo(x + 25, y - 20); 
+      ctx.lineTo(x + 25, y - 40);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x + 25, y - 40); 
+      ctx.lineTo(x + 20, y - 50);
+      ctx.stroke();
+    }
+
+    // Function to animate the robot moving back and forth
+    function animateRobot() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+
+      // Update robot's horizontal position
+      robotX += robotSpeed * direction;
+
+      // If the robot hits the left or right side of the screen, reverse direction
+      if (robotX + robotWidth >= canvas.width || robotX <= 0) {
+        direction *= -4; // Change direction
+      }
+
+      // Draw the robot at the new position
+      drawRobot(robotX, robotY);
+
+      // Call the animateRobot function again to create a smooth animation loop
+      requestAnimationFrame(animateRobot);
+    }
+
+    // Start the animation
+    animateRobot();
+  </script>
+</body>
+</html>

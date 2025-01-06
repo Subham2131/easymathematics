@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Sine Wave Animation</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #1d0596, #397aeb, #1722f1);
+    }
+    canvas {
+      display: block;
+    }
+    .controls {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(11, 11, 11, 0.7);
+      padding: 10px;
+      border-radius: 5px;
+      color: white;
+    }
+    .controls label {
+      display: block;
+      margin: 5px 0;
+    }
+    .controls input {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <label>Amplitude:
+      <input type="range" id="amplitude" min="10" max="200" value="100">
+    </label>
+    <label>Frequency:
+      <input type="range" id="frequency" min="0.01" max="0.1" step="0.01" value="0.05">
+    </label>
+    <label>Speed:
+      <input type="range" id="speed" min="0.01" max="0.2" step="0.01" value="0.05">
+    </label>
+  </div>
+
+  <canvas id="mathCanvas"></canvas>
+
+  <script>
+    // Get the canvas and context
+    const canvas = document.getElementById("mathCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // Set canvas size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Wave properties
+    const waves = [
+      { amplitude: 100, frequency: 0.05, phaseShift: 0, color: "rgba(255, 100, 100, 0.8)" },
+      { amplitude: 60, frequency: 0.03, phaseShift: Math.PI / 4, color: "rgba(100, 255, 100, 0.8)" },
+      { amplitude: 80, frequency: 0.07, phaseShift: Math.PI / 2, color: "rgba(100, 100, 255, 0.8)" }
+    ];
+
+    let speed = 0.05; // Wave speed
+    let time = 0; // Time variable
+
+    // Dynamic controls
+    const amplitudeControl = document.getElementById("amplitude");
+    const frequencyControl = document.getElementById("frequency");
+    const speedControl = document.getElementById("speed");
+
+    // Update wave properties from controls
+    amplitudeControl.addEventListener("input", () => {
+      waves[0].amplitude = parseFloat(amplitudeControl.value);
+    });
+    frequencyControl.addEventListener("input", () => {
+      waves[0].frequency = parseFloat(frequencyControl.value);
+    });
+    speedControl.addEventListener("input", () => {
+      speed = parseFloat(speedControl.value);
+    });
+
+    // Function to draw a single wave
+    function drawWave({ amplitude, frequency, phaseShift, color }) {
+      ctx.beginPath();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = color;
+
+      for (let x = 0; x < canvas.width; x++) {
+        const y =
+          canvas.height / 2 +
+          amplitude * Math.sin(frequency * (x + time) + phaseShift);
+
+        if (x === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+      }
+
+      ctx.stroke();
+      ctx.closePath();
+    }
+
+    // Animation loop
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+
+      // Draw each wave
+      waves.forEach(wave => drawWave(wave));
+
+      time += speed; // Increment time for wave motion
+      requestAnimationFrame(animate); // Loop the animation
+    }
+
+    // Adjust canvas size dynamically
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    // Start the animation
+    animate();
+  </script>
+</body>
+</html>

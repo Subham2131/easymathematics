@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enhanced Snake Animation</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(to bottom, #1e3c72, #2a5298);
+      font-family: Arial, sans-serif;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Easy Mathematics</h1>
+    <canvas id="enhancedCanvas"></canvas>
+
+  <script>
+    // Get the canvas and context
+    const canvas = document.getElementById("enhancedCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // Set canvas size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Snake properties
+    const snake = {
+      segments: 50,
+      radius: 10,
+      path: [],
+      targetX: canvas.width / 2,
+      targetY: canvas.height / 2,
+      speed: 0,
+    };
+
+    // Particles for the trail effect
+    const particles = [];
+    const maxParticles = 100;
+
+    // Math symbols
+    const mathSymbols = ["∑", "π", "∞", "∫", "Δ", "θ", "√", "Σ", "±", "≠"];
+    const symbols = [];
+    for (let i = 0; i < 15; i++) {
+      symbols.push({
+        text: mathSymbols[Math.floor(Math.random() * mathSymbols.length)],
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        fontSize: Math.random() * 40 + 20,
+        dx: (Math.random() - 0.5) * 2,
+        dy: (Math.random() - 0.5) * 2,
+        glow: Math.random() * 10 + 5, // Glow intensity
+      });
+    }
+
+    // Track mouse position
+    window.addEventListener("mousemove", (event) => {
+      snake.targetX = event.clientX;
+      snake.targetY = event.clientY;
+    });
+
+    // Function to draw the snake
+    function drawSnake() {
+      ctx.beginPath();
+
+      const headX = snake.targetX;
+      const headY = snake.targetY;
+
+      // Add the new head to the path
+      snake.path.unshift({ x: headX, y: headY });
+
+      // Keep only the required number of segments
+      if (snake.path.length > snake.segments) {
+        snake.path.pop();
+      }
+
+      // Draw each segment
+      for (let i = 0; i < snake.path.length; i++) {
+        const segment = snake.path[i];
+        const opacity = 1 - i / snake.path.length; // Fade effect
+        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+        ctx.beginPath();
+        ctx.arc(segment.x, segment.y, snake.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.closePath();
+      }
+    }
+
+    // Function to draw math symbols with glowing effect
+    function drawMathSymbols() {
+      symbols.forEach((symbol) => {
+        ctx.save();
+        ctx.font = `${symbol.fontSize}px Arial`;
+        ctx.shadowColor = "white";
+        ctx.shadowBlur = symbol.glow; // Apply glow
+        ctx.fillStyle = "white";
+        ctx.fillText(symbol.text, symbol.x, symbol.y);
+        ctx.restore();
+
+        // Update position
+        symbol.x += symbol.dx;
+        symbol.y += symbol.dy;
+
+        // Bounce off edges
+        if (symbol.x < 0 || symbol.x > canvas.width) symbol.dx *= -1;
+        if (symbol.y < 0 || symbol.y > canvas.height) symbol.dy *= -1;
+      });
+    }
+
+    // Function to add particles
+    function addParticles(x, y) {
+      for (let i = 0; i < 5; i++) {
+        particles.push({
+          x,
+          y,
+          dx: (Math.random() - 0.5) * 2,
+          dy: (Math.random() - 0.5) * 2,
+          life: 100,
+        });
+      }
+    }
+
+    // Function to draw particles
+    function drawParticles() {
+      particles.forEach((particle, index) => {
+        particle.x += particle.dx;
+        particle.y += particle.dy;
+        particle.life -= 2;
+
+        ctx.fillStyle = `rgba(255, 255, 255, ${particle.life / 100})`;
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Remove dead particles
+        if (particle.life <= 0) {
+          particles.splice(index, 1);
+        }
+      });
+    }
+
+    // Animation loop
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Calculate speed
+      const dx = snake.targetX - (snake.path[0]?.x || snake.targetX);
+      const dy = snake.targetY - (snake.path[0]?.y || snake.targetY);
+      snake.speed = Math.sqrt(dx * dx + dy * dy);
+
+      // Add particles to the trail
+      addParticles(snake.targetX, snake.targetY);
+
+      // Draw elements
+      drawParticles();
+      drawMathSymbols();
+      drawSnake();
+
+      // Loop animation
+      requestAnimationFrame(animate);
+    }
+
+    // Adjust canvas size dynamically
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    // Start the animation
+    animate();
+  </script>
+</body>
+</html>
+
